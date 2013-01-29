@@ -1,0 +1,3 @@
+overlay	chrome://browser/content/browser.xul	chrome://contextsearch/content/contextsearch.xul
+content	contextsearch chrome/content/
+locale  contextsearch en-US chrome/locale/en-US/

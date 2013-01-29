@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+  
+    <em:id>{902D2C4A-457A-4EF9-AD43-7014562929FF}</em:id>
+    <em:version>0.4.6</em:version>
+    
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>3.6</em:minVersion>
+        <em:maxVersion>18.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+    
+    <em:name>Context Search</em:name>
+    <em:description>Expands the context menu's 'Search for' item into a list of search engines.</em:description>
+    <em:creator>Ben Basson</em:creator>
+    <em:homepageURL>http://www.cusser.net</em:homepageURL>
+    
+  </Description>      
+</RDF>
