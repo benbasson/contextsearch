@@ -131,11 +131,21 @@ var contextsearch =
 
     return selectedText;
   },
-  
+
+  textNodeTypes: {
+    "text": true,
+	"search": true,
+	"url": true,
+	"email": true,
+	"tel": true,
+	"date": true
+  },
+
   isTextInputNode: function (aNode)
   {
     try {
-      return ((aNode instanceof HTMLInputElement && aNode.type == "text")
+      return ((aNode instanceof HTMLInputElement
+	               && aNode.type in contextsearch.textNodeTypes)
                || aNode instanceof HTMLTextAreaElement);
     } catch (e) {
       return false;
