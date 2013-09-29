@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
@@ -6,13 +6,13 @@
   <Description about="urn:mozilla:install-manifest">
   
     <em:id>{902D2C4A-457A-4EF9-AD43-7014562929FF}</em:id>
-    <em:version>0.4.6</em:version>
+    <em:version>0.5</em:version>
     
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>3.6</em:minVersion>
-        <em:maxVersion>18.0.*</em:maxVersion>
+        <em:minVersion>23.0</em:minVersion>
+        <em:maxVersion>25.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -24,7 +24,7 @@
     <em:contributor>Sebastian Lisken</em:contributor>
     <em:contributor>David Pi (zh-CN locale)</em:contributor>
     <em:contributor>Tim Babych (uk-UA locale)</em:contributor>
-    <em:contributor>Marcelo Alejandro Soto Rodr�guez (es-CL, es-ES locales)</em:contributor>
+    <em:contributor>Marcelo Alejandro Soto Rodríguez (es-CL, es-ES locales)</em:contributor>
     <em:contributor>Julien Vaux (fr-FR locale)</em:contributor>
     <em:contributor>Maxim Yanchenko (ru-RU locale)</em:contributor>
     <em:contributor>Maja Zor (de-DE, sl-SI locales)</em:contributor>
