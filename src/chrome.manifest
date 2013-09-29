@@ -2,3 +2,4 @@ overlay	chrome://browser/content/browser.xul	chrome://contextsearch/content/cont
 content	contextsearch chrome/content/
 locale  contextsearch en-US chrome/locale/en-US/
 locale  contextsearch zh-CN chrome/locale/zh-CN/
+locale  contextsearch uk-UA chrome/locale/uk-UA/
