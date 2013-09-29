@@ -3,3 +3,5 @@ content	contextsearch chrome/content/
 locale  contextsearch en-US chrome/locale/en-US/
 locale  contextsearch zh-CN chrome/locale/zh-CN/
 locale  contextsearch uk-UA chrome/locale/uk-UA/
+locale  contextsearch es-ES chrome/locale/es-ES/
+locale  contextsearch es-CL chrome/locale/es-CL/

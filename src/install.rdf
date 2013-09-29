@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
@@ -24,6 +24,7 @@
     <em:contributor>Sebastian Lisken</em:contributor>
     <em:contributor>David Pi (zh-CN locale)</em:contributor>
     <em:contributor>Tim Babych (uk-UA locale)</em:contributor>
+    <em:contributor>Marcelo Alejandro Soto Rodríguez (es-CL, es-ES locales)</em:contributor>
     
-  </Description>      
+  </Description>
 </RDF>
