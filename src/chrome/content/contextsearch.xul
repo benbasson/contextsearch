@@ -37,7 +37,7 @@
 
  ***** END LICENSE BLOCK ***** -->
 
-<!DOCTYPE window SYSTEM "chrome://browser/locale/browser.dtd">
+<!DOCTYPE window SYSTEM "chrome://contextsearch/locale/contextsearch.dtd">
 
 <?xml-stylesheet href="chrome://contextsearch/content/gnome-fix.css" type="text/css"?>   
 
@@ -54,7 +54,7 @@
   
     <menu id="context-searchmenu"
       insertafter="context-searchselect"
-      accesskey="&search.accesskey;">
+      accesskey="&contextsearch.accesskey;">
       
       <menupopup id="context-searchpopup"
         oncommand="return contextsearch.search(event);"/>
