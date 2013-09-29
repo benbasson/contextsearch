@@ -1,4 +1,4 @@
-Context Search
+﻿Context Search
 ==============
 Context Search transforms the "Web Search for..." context item into a menu containing your [Firefox Search Providers](https://addons.mozilla.org/en-US/firefox/search-tools/). This is very convenient, since it allows you to decide which search engine you use. Firefox's default is to use the currently selected search provider only. 
 
@@ -12,3 +12,13 @@ Drag and drop the latest XPI file from the build folder into a Firefox window. A
 Authors
 -------
  - Ben Basson *@ben_basson*
+ 
+Contributors
+------------
+ - Sebastian Lisken
+ - David Pi (zh-CN locale)
+ - Tim Babych (uk-UA locale)
+ - Marcelo Alejandro Soto Rodríguez (es-CL, es-ES locales)
+ - Julien Vaux (fr-FR locale)
+ - Maxim Yanchenko (ru-RU locale)
+ - Maja Zor (de-DE, sl-SI locales)
