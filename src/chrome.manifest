@@ -11,3 +11,5 @@ locale  contextsearch de-DE chrome/locale/de-DE/
 locale  contextsearch sl-SI chrome/locale/sl-SI/
 locale  contextsearch cs    chrome/locale/cs/
 locale  contextsearch fi-FI chrome/locale/fi-FI/
+locale  contextsearch he    chrome/locale/he/
+locale  contextsearch he-IL chrome/locale/he-IL/
