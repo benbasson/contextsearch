@@ -59,6 +59,11 @@ var contextsearch =
   , "extensions.contextsearch.separatorItems"
   , "browser.tabs.loadInBackground"
   ]
+  
+  /**
+   * Id of search menu.
+   */
+, _searchmenuid: "context-searchmenu"
 
   /**
    * Initialising function.
@@ -89,7 +94,11 @@ var contextsearch =
     }
              
     // Grab references to the context menu items and stringbundle for use later on
-    contextsearch.contextitem = document.getElementById("context-searchmenu");
+    contextsearch.contextitem = document.getElementById(contextsearch._searchmenuid);
+    
+    // Make menu root clickable
+    contextsearch.contextitem.addEventListener("click", contextsearch.menurootclick, false);    
+    
     contextsearch.popup = document.getElementById("context-searchpopup");
     contextsearch.stringBundle = document.getElementById("contextSearchStrings");
     
@@ -114,7 +123,7 @@ var contextsearch =
       }
       
       var menuLabel = contextsearch.getMenuItemLabel(selectedText, false);
-                                                           
+      
       contextsearch.rebuildmenu();
       contextsearch.setupDefaultMenuItem(selectedText);
       contextsearch.contextitem.setAttribute("label", menuLabel);
@@ -322,7 +331,23 @@ var contextsearch =
     
     // continue with search
     contextsearch.search(aEvent);
-    return true;
+    return false;
+  }
+  
+  /**
+   * Handle click events that activate on the context search menu item.
+   * @param aEvent the event to process
+   */
+, menurootclick: function (aEvent) {
+    // Crude check - don't fire this handler if this wasn't the item clicked on
+    if (aEvent.target.id != contextsearch._searchmenuid) {
+      return false;
+    }
+    contextsearch.hidecontextmenu(aEvent);
+
+    // continue with search, overriding with default engine
+    contextsearch.search(aEvent, contextsearch.searchService.defaultEngine);
+    return false;
   }
   
   /**
@@ -331,24 +356,26 @@ var contextsearch =
    * background or foreground tab or window depending on click action
    * taken and user preferences.
    * @param aEvent the event to action
+   * @param aOverrideEngine an engine to use explicitly (ignore the event target)
    */
-, search: function (aEvent) 
+, search: function (aEvent, aOverrideEngine) 
   {
     if (!aEvent.target.id) {
       return;
     }
-      
+    
+    var engineToUse = aOverrideEngine ? aOverrideEngine : aEvent.target.engine;
     var searchValue = contextsearch.getBrowserSelection(null, aEvent);
 
     if (contextsearch.prefsMap["extensions.contextsearch.quoteStringsWithSpaces"] && searchValue.indexOf(' ') >= 0 ) {
       searchValue = '"' + searchValue + '"';
     }
-    var params = contextsearch.getSearchParams(aEvent.target.engine, searchValue);     
+    var params = contextsearch.getSearchParams(engineToUse, searchValue);     
     var loadInBackgroundPref = contextsearch.prefsMap["browser.tabs.loadInBackground"];
     var loadInForeground = false;
    
-    if (aEvent.button == undefined) {
-      loadInForeground = loadInBackgroundPref ? aEvent.ctrlKey || aEvent.metaKey : !aEvent.ctrlKey && !aEvent.metaKey;
+    if (aEvent.type === "click" || aEvent.button == undefined) {
+      loadInForeground = loadInBackgroundPref ? aEvent.ctrlKey || aEvent.metaKey || aEvent.button == 1: !aEvent.ctrlKey && !aEvent.metaKey && !aEvent.button == 1;
     }
     else {
       loadInForeground = loadInBackgroundPref ? true : false;
@@ -357,7 +384,7 @@ var contextsearch =
     if (aEvent.shiftKey) {
       openNewWindowWith(params.searchUrl, null, params.postData, false);
     }
-        
+    
     else {
       var browser = window.getBrowser();
       var currentTab = browser.selectedTab;
@@ -408,7 +435,7 @@ var contextsearch =
     }
 
     return {searchUrl: finalUrl, postData: postData};
-	}
+  }
 }
 
 window.addEventListener("load", contextsearch.load, true);
