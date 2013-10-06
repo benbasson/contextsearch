@@ -16,3 +16,4 @@ locale  contextsearch he-IL chrome/locale/he-IL/
 locale  contextsearch pt-BR chrome/locale/pt-BR/
 locale  contextsearch sv-SE chrome/locale/sv-SE/
 locale  contextsearch tr    chrome/locale/tr/
+locale  contextsearch nl    chrome/locale/nl/
