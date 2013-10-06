@@ -94,13 +94,12 @@ var contextsearch =
     }
              
     // Grab references to the context menu items and stringbundle for use later on
-    contextsearch.contextitem = document.getElementById(contextsearch._searchmenuid);
+    contextsearch.contextitem = document.getElementById(contextsearch._searchmenuid);  
+    contextsearch.popup = document.getElementById("context-searchpopup");
+    contextsearch.stringBundle = document.getElementById("contextSearchStrings");
     
     // Make menu root clickable
     contextsearch.contextitem.addEventListener("click", contextsearch.menurootclick, false);    
-    
-    contextsearch.popup = document.getElementById("context-searchpopup");
-    contextsearch.stringBundle = document.getElementById("contextSearchStrings");
     
     document.getElementById("contentAreaContextMenu").addEventListener("popupshowing",contextsearch.popuphandler,false);
     window.removeEventListener("load", contextsearch.load, false);
