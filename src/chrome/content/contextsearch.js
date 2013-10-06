@@ -37,22 +37,40 @@
 
 var contextsearch =
 {
-  load: function ()
-  {
+  /**
+   * Text node type list - for checking node types where
+   * the menu should be displayed.
+   */
+  _textNodeTypes: {
+    "text": true
+  , "search": true
+  , "url": true
+  , "email": true
+  , "tel": true
+  , "date": true
+  }
+
+  /**
+   * Array of preferences to observe for changes.
+   */
+, _prefsToObserve: [
+    "extensions.contextsearch.hideStandardContextItem"
+  , "extensions.contextsearch.quoteStringsWithSpaces"
+  , "extensions.contextsearch.separatorItems"
+  , "browser.tabs.loadInBackground"
+  ]
+
+  /**
+   * Initialising function.
+   */
+, load: function () {
     var prefs = Components.classes["@mozilla.org/preferences-service;1"]
                   .getService(Components.interfaces.nsIPrefService);
-    
-    var prefsToObserve = [
-      "extensions.contextsearch.hideStandardContextItem"
-    , "extensions.contextsearch.quoteStringsWithSpaces"
-    , "extensions.contextsearch.separatorItems"
-    , "browser.tabs.loadInBackground"
-    ];
     
     // Observe pref changes and store result rather than fetching each time
     var prefsObserver = new GenericPrefObserver(
       prefs
-    , prefsToObserve
+    , contextsearch._prefsToObserve
     , function (aName, aValue) {
         contextsearch.prefsMap[aName] = aValue;
       }
@@ -66,50 +84,53 @@ var contextsearch =
     
     // Init array and trigger pref fetch callback for each pref we want to observe
     contextsearch.prefsMap = new Array();
-    for (var n in prefsToObserve) {
-      prefsObserver.observe(null, "nsPref:changed", prefsToObserve[n]);
+    for (var n in contextsearch._prefsToObserve) {
+      prefsObserver.observe(null, "nsPref:changed", contextsearch._prefsToObserve[n]);
     }
-                  
+             
+    // Grab references to the context menu items and stringbundle for use later on
     contextsearch.contextitem = document.getElementById("context-searchmenu");
     contextsearch.popup = document.getElementById("context-searchpopup");
     contextsearch.stringBundle = document.getElementById("contextSearchStrings");
     
     document.getElementById("contentAreaContextMenu").addEventListener("popupshowing",contextsearch.popuphandler,false);
     window.removeEventListener("load", contextsearch.load, false);
-  },
+  }
   
-  popuphandler: function()
-  {
+  /**
+   * Handler for when the context menu is displayed.
+   */ 
+, popuphandler: function() {
     var selectedText = contextsearch.getBrowserSelection(16);
     
     // truncate text for label and set up menu items as appropriate
-    if (selectedText != null && selectedText.length > 0)
-    {
+    if (selectedText != null && selectedText.length > 0) {
       if (selectedText.length > 15) {
         selectedText = selectedText.substr(0,15) + "...";
       }
-        
+      
       var menuLabel = contextsearch.getMenuItemLabel(selectedText, false);
                                                            
       contextsearch.rebuildmenu();
       contextsearch.setupDefaultMenuItem(selectedText);
       contextsearch.contextitem.setAttribute("label", menuLabel);
-      contextsearch.contextitem.setAttribute("hidden","false");
+      contextsearch.contextitem.setAttribute("hidden", "false");
     }
     
     else {
-      contextsearch.contextitem.setAttribute("hidden","true");
-    }   
-  },
+      contextsearch.contextitem.setAttribute("hidden", "true");
+    }
+  }
   
-  getBrowserSelection: function (aChars, aEvent)
-  {
+  /**
+   * Simply returns the text that the user has selected.
+   */
+, getBrowserSelection: function (aChars, aEvent) {
     var focusedElement = document.commandDispatcher.focusedElement;
     var selectedText = null;
 
     // get text selection from input node
-    if (contextsearch.isTextInputNode(focusedElement) && contextsearch.textSelectedInNode(focusedElement))
-    {
+    if (contextsearch.isTextInputNode(focusedElement) && contextsearch.textSelectedInNode(focusedElement)) {
       var startPos = focusedElement.selectionStart;
       var endPos = focusedElement.selectionEnd;
       
@@ -127,44 +148,50 @@ var contextsearch =
     }
 
     return selectedText;
-  },
-
-  textNodeTypes: {
-    "text": true,
-	"search": true,
-	"url": true,
-	"email": true,
-	"tel": true,
-	"date": true
-  },
-
-  isTextInputNode: function (aNode)
-  {
+  }
+  
+  /**
+   * Tests if the current node is an input textbox of some kind.
+   * @param aNode the node to test
+   * @return true if node is an input textbox, otherwise false
+   */
+, isTextInputNode: function (aNode) {
     try {
-      return ((aNode instanceof HTMLInputElement
-	               && aNode.type in contextsearch.textNodeTypes)
-               || aNode instanceof HTMLTextAreaElement);
-    } catch (e) {
+      return ((aNode instanceof HTMLInputElement && aNode.type in contextsearch._textNodeTypes)
+        || aNode instanceof HTMLTextAreaElement);
+    } 
+    catch (e) {
       return false;
     }
-  },
+  }
   
-  textSelectedInNode: function (aNode)
-  {
+  /**
+   * Checks that the node has a text selection.
+   * @param aNode the node to test
+   * @return true if text is selected, otherwise false
+   */
+, textSelectedInNode: function (aNode) {
     try {
       return (aNode.selectionStart < aNode.selectionEnd)
-    } catch (e) {
+    } 
+    catch (e) {
       return false;
     }
-  },
-
-  // shamelessly ripped from browser.js  
-  getMenuItemLabel: function (aString, aUseEngineName)
-  {
+  }
+  
+  /**
+   * Returns the menu item label to use, based on the text selection
+   * and (if required) the default engine that should be used for the
+   * in-built menu item.
+   * Note: shamelessly ripped from browser.js  
+   * @param aString the search string to use, i.e. substring of browser selected text
+   * @param aUseEngineName whether the search engine name should be used in the label
+   * @return menu item label as a string
+   */ 
+, getMenuItemLabel: function (aString, aUseEngineName) {
     var engineName = "";
     
-    if (aUseEngineName)
-    {
+    if (aUseEngineName) {
       var ss = Components.classes["@mozilla.org/browser/search-service;1"]
                 .getService(Components.interfaces.nsIBrowserSearchService)
       
@@ -193,16 +220,20 @@ var contextsearch =
       menuLabel = contextsearch.stringBundle.getFormattedString("contextSearchMenuItemText", [aString]);
     }
     return aUseEngineName ? menuLabel : menuLabel.replace(/\s\s/," ");
-  },
+  }
 
-  setupDefaultMenuItem: function (selectedText)
-  {
+  /**
+   * Builds up the default menu item if the contextsearch preference is flipped
+   * such that the default menu item is not hidden, otherwise does nothing aside
+   * from ensuring that the menu item is hidden.
+   * @param aSelectedText the text selection to pass through to label creation
+   */
+, setupDefaultMenuItem: function (aSelectedText) {
     var menuItem = document.getElementById("context-searchselect");
 
     // only go to this effort if pref is flipped
-    if (contextsearch.prefsMap["extensions.contextsearch.hideStandardContextItem"] == false)
-    {
-      var menuLabel = contextsearch.getMenuItemLabel(selectedText, true);
+    if (contextsearch.prefsMap["extensions.contextsearch.hideStandardContextItem"] == false) {
+      var menuLabel = contextsearch.getMenuItemLabel(aSelectedText, true);
       
       // set label, show item and return
       menuItem.setAttribute("label", menuLabel);
@@ -214,9 +245,12 @@ var contextsearch =
     }
     
     return true;
-  },
+  }
   
-  rebuildmenu: function ()
+  /** 
+   * Rebuilds the context search menu list.
+   */
+, rebuildmenu: function ()
   {                  
     var sepItemsPrefValue = contextsearch.prefsMap["extensions.contextsearch.separatorItems"];
     var sepItems = sepItemsPrefValue.split(',');
@@ -234,8 +268,7 @@ var contextsearch =
       popup.removeChild(popup.firstChild);
     }
   
-    for (var i = engines.length - 1; i >= 0; --i)
-    {
+    for (var i = engines.length - 1; i >= 0; --i) {
       var menuitem = document.createElementNS(kXULNS, "menuitem");
       menuitem.setAttribute("label", engines[i].name);
       menuitem.setAttribute("id", engines[i].name);
@@ -250,20 +283,23 @@ var contextsearch =
       menuitem.setAttribute("onclick", "return contextsearch.menuitemclick(event);");
 
       // add separator
-      for (var j = 0; j < sepItems.length; j++) 
-      {
-        if (sepItems[j] == engines[i].name) 
-        {
+      for (var j = 0; j < sepItems.length; j++) {
+        if (sepItems[j] == engines[i].name) {
           var separator = document.createElementNS(kXULNS, "menuseparator");
           popup.insertBefore(separator, popup.firstChild);
           break;
         }
       }
     }
-  },
+  }
   
-  menuitemclick: function (aEvent)
-  {
+  /**
+   * Handler for click events on the menu items. Bails out if activated
+   * for anything other than a middle click, as this should be handled
+   * using the oncommand handler anyway.
+   * @param aEvent the event to process
+   */
+, menuitemclick: function (aEvent) {
     // only process middle clicks
     if (aEvent.button != 1) {
       return false;
@@ -271,8 +307,7 @@ var contextsearch =
   
     // hide context menu
     var node = aEvent.target.parentNode;
-    while (node.parentNode)
-    {
+    while (node.parentNode) {
       if (node.hidePopup) {
         node.hidePopup();
       }
@@ -282,12 +317,20 @@ var contextsearch =
     // continue with search
     contextsearch.search(aEvent);
     return true;
-  },
+  }
   
-  search: function (aEvent) 
+  /**
+   * Main search handling function. When provided with an event, will
+   * interpret the event and take the necessary action - i.e. search in
+   * background or foreground tab or window depending on click action
+   * taken and user preferences.
+   * @param aEvent the event to action
+   */
+, search: function (aEvent) 
   {
-    if (!aEvent.target.id)
+    if (!aEvent.target.id) {
       return;
+    }
       
     var searchValue = contextsearch.getBrowserSelection(null, aEvent);
 
@@ -309,8 +352,7 @@ var contextsearch =
       openNewWindowWith(params.searchUrl, null, params.postData, false);
     }
         
-    else 
-    {
+    else {
       var browser = window.getBrowser();
       var currentTab = browser.selectedTab;
       var newTab = browser.addTab(
@@ -329,17 +371,25 @@ var contextsearch =
         browser.selectedTab = newTab;
       }
     }
-  },
+  }
   
-  getSearchParams: function (searchEngine, searchValue)
+  /**
+   * Constructs a tuple of searchUrl and postData based on a
+   * provided search engine and search value. This is essentially
+   * building the URL and request data to perform the search with
+   * the chosen engine.
+   * @param aSearchEngine the search engine to use
+   * @param aSearchValue the value to search for
+   * @param tuple object: {searchUrl, postData}
+   */
+, getSearchParams: function (aSearchEngine, aSearchValue)
   {
-  	var searchSubmission = searchEngine.getSubmission(searchValue, null);
+  	var searchSubmission = aSearchEngine.getSubmission(aSearchValue, null);
 	  var postData = searchSubmission.postData ? searchSubmission.postData : null;
   	var searchUrl = searchSubmission.uri.spec;
   	var finalUrl = new String();
 
-  	if (!searchValue) 
-    {
+  	if (!aSearchValue) {
   		var uri = Components.classes['@mozilla.org/network/standard-url;1']
   		            .createInstance(Components.interfaces.nsIURI);
   		uri.spec = searchUrl;
