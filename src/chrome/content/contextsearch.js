@@ -290,6 +290,21 @@ var contextsearch =
       }
     }
   }
+
+  /**
+   * Recurse through parent nodes and call hidePopup for any encountered nodes that
+   * support that method.
+   * @param aEvent the triggering event from which to derive a target 
+   */ 
+, hidecontextmenu: function (aEvent) {
+    var node = aEvent.target.parentNode;
+    while (node.parentNode) {
+      if (node.hidePopup) {
+        node.hidePopup();
+      }
+      node = node.parentNode;
+    }
+  }
   
   /**
    * Handler for click events on the menu items. Bails out if activated
@@ -302,15 +317,8 @@ var contextsearch =
     if (aEvent.button != 1) {
       return false;
     }
-  
-    // hide context menu
-    var node = aEvent.target.parentNode;
-    while (node.parentNode) {
-      if (node.hidePopup) {
-        node.hidePopup();
-      }
-      node = node.parentNode;
-    }
+    
+    contextsearch.hidecontextmenu(aEvent);
     
     // continue with search
     contextsearch.search(aEvent);
