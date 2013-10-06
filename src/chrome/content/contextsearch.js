@@ -95,6 +95,10 @@ var contextsearch =
     
     document.getElementById("contentAreaContextMenu").addEventListener("popupshowing",contextsearch.popuphandler,false);
     window.removeEventListener("load", contextsearch.load, false);
+    
+    // Keep a permanent reference to the search service
+    contextsearch.searchService = Components.classes["@mozilla.org/browser/search-service;1"]
+                                    .getService(Components.interfaces.nsIBrowserSearchService);
   }
   
   /**
@@ -192,22 +196,19 @@ var contextsearch =
     var engineName = "";
     
     if (aUseEngineName) {
-      var ss = Components.classes["@mozilla.org/browser/search-service;1"]
-                .getService(Components.interfaces.nsIBrowserSearchService)
-      
       // Firefox 3.0
       if (window.isElementVisible && isElementVisible(BrowserSearch.searchBar)) {
-        engineName =  ss.currentEngine.name; 
+        engineName = contextsearch.searchService.currentEngine.name; 
       }
       
       // Firefox 2.0
       else if (BrowserSearch.getSearchBar && BrowserSearch.getSearchBar()) {
-        engineName =  ss.currentEngine.name;
+        engineName = contextsearch.searchService.currentEngine.name;
       }
       
       // Fallback in any other case, or if functions yield false/null
       else {
-        engineName = ss.defaultEngine.name;
+        engineName = contextsearch.searchService.defaultEngine.name;
       }
     }
     
@@ -257,11 +258,8 @@ var contextsearch =
 
     const kXULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     
-    var searchService = Components.classes["@mozilla.org/browser/search-service;1"]
-                          .getService(Components.interfaces.nsIBrowserSearchService);
-                      
     var popup = contextsearch.popup;
-    var engines = searchService.getVisibleEngines({ });
+    var engines = contextsearch.searchService.getVisibleEngines({ });
         
     // clear menu
     while (popup.firstChild) {
