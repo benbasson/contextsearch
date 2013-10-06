@@ -22,3 +22,11 @@ Contributors
  - Julien Vaux (fr-FR locale)
  - Maxim Yanchenko (ru-RU locale)
  - Maja Zor (de-DE, sl-SI locales)
+ - eking (cs locale)
+ - Jiipee (fi-FI locale)
+ - barryoni (he, he-IL locales) 
+ - Ghelman (pt-BR locale)
+ - Lakrits (sv-SE locale)
+ - omrakin (tr locale)
+ - markh (nl locale)
+ 
