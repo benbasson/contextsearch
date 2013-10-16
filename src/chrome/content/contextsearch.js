@@ -54,7 +54,8 @@ var contextsearch =
    * Array of preferences to observe for changes.
    */
 , _prefsToObserve: [
-    "extensions.contextsearch.hideStandardContextItem"
+    "extensions.contextsearch.clickMenuToSearch"
+  , "extensions.contextsearch.hideStandardContextItem"
   , "extensions.contextsearch.quoteStringsWithSpaces"
   , "extensions.contextsearch.separatorItems"
   , "browser.tabs.loadInBackground"
@@ -342,10 +343,13 @@ var contextsearch =
     if (aEvent.target.id != contextsearch._searchmenuid) {
       return false;
     }
-    contextsearch.hidecontextmenu(aEvent);
+    // Don't react to click on the menu item if either the standard context item is available, or if the feature is disabled
+    if (contextsearch.prefsMap["extensions.contextsearch.hideStandardContextItem"] && contextsearch.prefsMap["extensions.contextsearch.clickMenuToSearch"]) {
+      contextsearch.hidecontextmenu(aEvent);
 
-    // continue with search, overriding with default engine
-    contextsearch.search(aEvent, contextsearch.searchService.defaultEngine);
+      // continue with search, overriding with default engine
+      contextsearch.search(aEvent, contextsearch.searchService.defaultEngine);
+    }
     return false;
   }
   
