@@ -287,7 +287,9 @@ var contextsearch =
       
       popup.insertBefore(menuitem, popup.firstChild);
       menuitem.engine = engines[i];
-      menuitem.setAttribute("onclick", "return contextsearch.menuitemclick(event);");
+      menuitem.addEventListener("click", function (aEvent) {
+        return contextsearch.menuitemclick(aEvent);
+      }, false);
 
       // add separator
       for (var j = 0; j < sepItems.length; j++) {
