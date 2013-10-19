@@ -224,7 +224,7 @@ var contextsearch =
     // format "Search <engine> for <selection>" string to show in menu
     var menuLabel = "";
     if (aUseEngineName) {
-      menuLabel = gNavigatorBundle.getFormattedString("contextMenuSearchText", [engineName, aString]);
+      menuLabel = gNavigatorBundle.getFormattedString("contextMenuSearch", [engineName, aString]);
     }
     else {
       menuLabel = contextsearch.stringBundle.getFormattedString("contextSearchMenuItemText", [aString]);
