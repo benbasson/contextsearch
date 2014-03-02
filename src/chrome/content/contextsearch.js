@@ -157,7 +157,10 @@ var contextsearch =
     // if an event is passed from the menu, we can assume there's a selection
     // otherwise check text is selected
     else if (aEvent || (gContextMenu && gContextMenu.isTextSelected)) {
-      selectedText = getBrowserSelection(aChars);
+      if (window.getBrowserSelection)
+        selectedText = getBrowserSelection(aChars);
+      else if (gContextMenu && gContextMenu.searchSelected)
+        selectedText = gContextMenu.searchSelected(aChars);
     }
 
     return selectedText;
