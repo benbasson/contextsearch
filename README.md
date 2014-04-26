@@ -31,3 +31,4 @@ Contributors
  - markh (nl locale)
  - kobachi (ja-JP locale)
  - on9123 (zh-TW locale)
+ - mdr.ksk (et-EE locale)

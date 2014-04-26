@@ -19,3 +19,4 @@ locale  contextsearch tr    chrome/locale/tr/
 locale  contextsearch nl    chrome/locale/nl/
 locale  contextsearch ja-JP chrome/locale/ja-JP/
 locale  contextsearch zh-TW chrome/locale/zh-TW/
+locale  contextsearch et-EE chrome/locale/et-EE/
