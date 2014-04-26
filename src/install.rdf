@@ -7,13 +7,13 @@
   
     <em:id>{902D2C4A-457A-4EF9-AD43-7014562929FF}</em:id>
     <em:type>2</em:type>
-    <em:version>0.6.2</em:version>
+    <em:version>0.6.3</em:version>
     
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>23.0</em:minVersion>
-        <em:maxVersion>25.0.*</em:maxVersion>
+        <em:maxVersion>29.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     
