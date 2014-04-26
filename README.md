@@ -30,4 +30,4 @@ Contributors
  - omrakin (tr locale)
  - markh (nl locale)
  - kobachi (ja-JP locale)
- 
+ - on9123 (zh-TW locale)
