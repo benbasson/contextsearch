@@ -135,7 +135,7 @@ var contextsearch =
       var endPos = focusedElement.selectionEnd;
       
       if (aChars && aChars < endPos - startPos) {
-        endPos = startPos + (aChars <= 150 ? aChars : 150);
+        endPos = startPos + aChars;
       }
       
       selectedText = focusedElement.value.substring(startPos, endPos);
