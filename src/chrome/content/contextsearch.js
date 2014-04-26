@@ -38,22 +38,9 @@
 var contextsearch =
 {
   /**
-   * Text node type list - for checking node types where
-   * the menu should be displayed.
-   */
-  _textNodeTypes: {
-    "text": true
-  , "search": true
-  , "url": true
-  , "email": true
-  , "tel": true
-  , "date": true
-  }
-
-  /**
    * Array of preferences to observe for changes.
    */
-, _prefsToObserve: [
+  _prefsToObserve: [
     "extensions.contextsearch.clickMenuToSearch"
   , "extensions.contextsearch.hideStandardContextItem"
   , "extensions.contextsearch.quoteStringsWithSpaces"
@@ -170,8 +157,8 @@ var contextsearch =
    */
 , isTextInputNode: function (aNode) {
     try {
-      return ((aNode instanceof HTMLInputElement && aNode.type in contextsearch._textNodeTypes)
-        || aNode instanceof HTMLTextAreaElement);
+      return (aNode instanceof HTMLInputElement && aNode.mozIsTextField(true))
+        || aNode instanceof HTMLTextAreaElement;
     } 
     catch (e) {
       return false;
