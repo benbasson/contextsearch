@@ -20,7 +20,7 @@
     <em:name>Context Search</em:name>
     <em:description>Expands the context menu's 'Search for' item into a list of search engines.</em:description>
     <em:creator>Ben Basson</em:creator>
-    <em:homepageURL>http://www.cusser.net</em:homepageURL>
+    <em:homepageURL>http://www.basson.at/firefox-addons/contextsearch</em:homepageURL>
     
     <em:contributor>Sebastian Lisken</em:contributor>
     <em:contributor>David Pi (zh-CN locale)</em:contributor>
