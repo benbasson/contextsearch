@@ -4,10 +4,7 @@ Context Search transforms the "Web Search for..." context item into a menu conta
 
 Installation
 ------------
-Drag and drop the latest XPI file from the build folder into a Firefox window. Alternatively, you can install the extension from:
-
- - https://addons.mozilla.org/en-US/firefox/addon/context-search/
- - http://www.cusser.net/extensions/contextsearch/
+Drag and drop the latest XPI file from the build folder into a Firefox window. Alternatively, you can install the extension from https://addons.mozilla.org/en-US/firefox/addon/context-search/
 
 Authors
 -------
