@@ -125,7 +125,7 @@ var contextsearch =
   /**
    * Simply returns the text that the user has selected.
    */
-, getBrowserSelection: function (aChars, aEvent) {
+, getBrowserSelection: function (aChars) {
     var focusedElement = document.commandDispatcher.focusedElement;
     var selectedText = null;
 
@@ -141,10 +141,9 @@ var contextsearch =
       selectedText = focusedElement.value.substring(startPos, endPos);
     }
     
-    // if an event is passed from the menu, we can assume there's a selection
-    // otherwise check text is selected
-    else if (aEvent || (gContextMenu && gContextMenu.isTextSelected)) {
-      selectedText = getBrowserSelection(aChars);
+    // check text is selected
+    else if (gContextMenu && gContextMenu.isTextSelected) {
+      selectedText = gContextMenu.textSelected.substring(0, aChars ? aChars : undefined);
     }
 
     return selectedText;
@@ -316,10 +315,10 @@ var contextsearch =
       return false;
     }
     
-    contextsearch.hidecontextmenu(aEvent);
-    
     // continue with search
     contextsearch.search(aEvent);
+
+    contextsearch.hidecontextmenu(aEvent);
     return false;
   }
   
@@ -334,10 +333,10 @@ var contextsearch =
     }
     // Don't react to click on the menu item if either the standard context item is available, or if the feature is disabled
     if (contextsearch.prefsMap["extensions.contextsearch.hideStandardContextItem"] && contextsearch.prefsMap["extensions.contextsearch.clickMenuToSearch"]) {
-      contextsearch.hidecontextmenu(aEvent);
-
       // continue with search, overriding with default engine
       contextsearch.search(aEvent, contextsearch.searchService.defaultEngine);
+
+      contextsearch.hidecontextmenu(aEvent);
     }
     return false;
   }
@@ -357,7 +356,7 @@ var contextsearch =
     }
     
     var engineToUse = aOverrideEngine ? aOverrideEngine : aEvent.target.engine;
-    var searchValue = contextsearch.getBrowserSelection(null, aEvent);
+    var searchValue = contextsearch.getBrowserSelection(null);
 
     if (contextsearch.prefsMap["extensions.contextsearch.quoteStringsWithSpaces"] && searchValue.indexOf(' ') >= 0 ) {
       searchValue = '"' + searchValue + '"';
