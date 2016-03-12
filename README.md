@@ -29,3 +29,4 @@ Contributors
  - kobachi (ja-JP locale)
  - on9123 (zh-TW locale)
  - mdr.ksk (et-EE locale)
+ - James Abbatiello (e10s compatibility)
