@@ -45,6 +45,7 @@ var contextsearch =
   , "extensions.contextsearch.hideStandardContextItem"
   , "extensions.contextsearch.quoteStringsWithSpaces"
   , "extensions.contextsearch.separatorItems"
+  , "extensions.contextsearch.showOnly"
   , "browser.tabs.loadInBackground"
   ]
   
@@ -255,13 +256,18 @@ var contextsearch =
     
     var popup = contextsearch.popup;
     var engines = contextsearch.searchService.getVisibleEngines({ });
-        
+    var showOnly = contextsearch.prefsMap["extensions.contextsearch.showOnly"];
+    if(showOnly)
+        showOnly = showOnly.split(',');
+    
     // clear menu
     while (popup.firstChild) {
       popup.removeChild(popup.firstChild);
     }
   
     for (var i = engines.length - 1; i >= 0; --i) {
+      if (showOnly.length && showOnly.indexOf(engines[i].name) == -1) continue;
+
       var menuitem = document.createElementNS(kXULNS, "menuitem");
       menuitem.setAttribute("label", engines[i].name);
       menuitem.setAttribute("id", engines[i].name);
